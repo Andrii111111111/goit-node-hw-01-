@@ -1,30 +1,49 @@
 import * as contacts from "./contacts.js";
+import yargs from "yargs";
 
-// const argv = require("yargs").argv;
+const argv = require("yargs").argv;
 
-const invokeAction = async ({ action, id, name, email, phone }) => {
+function invokeAction({ action, id, name, email, phone, ...data }) {
   switch (action) {
     case "list":
-      const allContacts = await contacts.listContacts();
+      const allContacts = contacts.getAllContacts();
       return console.log(allContacts);
-      break;
 
     case "get":
-      const oneContact = await contacts.getContactsById(id);
+      const oneContact = contacts.getContactsById(id);
       return console.log(oneContact);
-      break;
 
     case "add":
-      // ... name email phone
-      break;
+      const newContact = contacts.addContact(data);
+      return console.log(newContact);
 
     case "remove":
-      // ... id
-      break;
+      const removeContact = contacts.deleteById(id);
+      return console.log(removeContact);
 
     default:
       console.warn("\x1B[31m Unknown action type!");
   }
-};
+}
+invokeAction(argv);
 
-invokeAction({ action: "get", id: "AeHIrLTr6JkxGE6SN-0Rw" });
+// invokeAction({
+//   action: "list",
+// });
+
+// invokeAction({
+//   action: "get",
+//   id: "Z5sbDlS7pCzNsnAHLtDJd",
+// });
+
+// invokeAction({
+//   action: "add",
+//   name: "name",
+//   email: "email",
+//   phone: "1234567890",
+// });
+
+// invokeAction({
+//   action: "remove",
+//   id: "rsKkOQUi80UsgVPCcLZZW",
+// });
