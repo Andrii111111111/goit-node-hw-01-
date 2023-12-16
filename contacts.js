@@ -1,5 +1,4 @@
 import fs from "fs/promises";
-// import detectFileEncoding from "detect-file-encoding-and-language";
 import path from "path";
 import { nanoid } from "nanoid";
 
@@ -8,7 +7,6 @@ const updateContact = (contacts) =>
   fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
 
 export const getAllContacts = async () => {
-  // const { encoding } = await detectFileEncoding(contactsPath);
   const data = await fs.readFile(contactsPath, "utf-8");
   return JSON.parse(data);
 };
@@ -20,7 +18,7 @@ export const getContactsById = async (id) => {
 };
 
 export const addContact = async (name, email, phone) => {
-  const contacts = getAllContacts();
+  const contacts = await getAllContacts();
   const newContact = {
     id: nanoid(),
     name,
