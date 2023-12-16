@@ -1,5 +1,5 @@
 import fs from "fs/promises";
-import detectFileEncoding from "detect-file-encoding-and-language";
+// import detectFileEncoding from "detect-file-encoding-and-language";
 import path from "path";
 import { nanoid } from "nanoid";
 
@@ -19,11 +19,13 @@ export const getContactsById = async (id) => {
   return result || null;
 };
 
-export const addContact = async (data) => {
+export const addContact = async (name, email, phone) => {
   const contacts = getAllContacts();
   const newContact = {
     id: nanoid(),
-    ...data,
+    name,
+    email,
+    phone,
   };
   contacts.push(newContact);
   await updateContact(contacts);

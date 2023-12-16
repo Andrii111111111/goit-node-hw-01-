@@ -1,7 +1,6 @@
 import * as contacts from "./contacts.js";
-import yargs from "yargs";
-
-const argv = require("yargs").argv;
+// import yargs from "yargs";
+import { program } from "commander";
 
 function invokeAction({ action, id, name, email, phone, ...data }) {
   switch (action) {
@@ -14,7 +13,7 @@ function invokeAction({ action, id, name, email, phone, ...data }) {
       return console.log(oneContact);
 
     case "add":
-      const newContact = contacts.addContact(data);
+      const newContact = contacts.addContact(name, email, phone);
       return console.log(newContact);
 
     case "remove":
@@ -25,7 +24,20 @@ function invokeAction({ action, id, name, email, phone, ...data }) {
       console.warn("\x1B[31m Unknown action type!");
   }
 }
-invokeAction(argv);
+// const { argv } = yargs(process.argv.slice(2));
+
+program
+  .option("-a, --action <type>", "choose action")
+  .option("-i, --id <type>", "user id")
+  .option("-n, --name <type>", "user name")
+  .option("-e, --email <type>", "user email")
+  .option("-p, --phone <type>", "user phone");
+
+program.parse();
+
+const options = program.opts();
+
+invokeAction(options);
 
 // invokeAction({
 //   action: "list",
